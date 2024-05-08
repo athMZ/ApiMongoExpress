@@ -6,6 +6,10 @@ import router from './routes/routes.js';
 dotenv.config();
 const mongoString = process.env.DATABASE_URL;
 
+console.log("ENVIRONMENT VARIABLES");
+console.log(process.env.DATABASE_URL);
+console.log(process.env.COLLECTION_NAME);
+
 mongoose.connect(mongoString)
     .catch(error => console.log(error));
 

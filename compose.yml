@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  mongo:
+    container_name: mongo_todo
+    image: mongo:latest
+    ports:
+      - "7894:27017"
+    networks:
+      todo_network:
+        ipv4_address: 172.20.0.2
+    
+  api:
+    image: mongo_todo_api:latest
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    networks:
+      todo_network:
+        ipv4_address: 172.20.0.3
+
+networks:
+  todo_network:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
