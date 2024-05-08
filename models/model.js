@@ -5,13 +5,22 @@ dotenv.config();
 const collectionName = process.env.COLLECTION_NAME;
 
 const dataSchema = new mongoose.Schema({
-    name: {
+    title: {
         required: true,
         type: String
     },
-    age: {
+    description: {
         required: true,
-        type: Number
+        type: String
+    },
+    done: {
+        required: true,
+        type: Boolean
+    },
+    type: {
+        required: true,
+        type: String,
+        enum: ['daily', 'general']
     }
 })
 

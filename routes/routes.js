@@ -7,11 +7,23 @@ router.get('/', (req, res) => {
     res.send('Hello World');
 });
 
+//Get Schema Method
+router.get('/getSchema', async (req, res) => {
+    try {
+        const schema = Model.schema;
+        res.json(schema);
+    } catch (error) {
+        res.status(500);
+    }
+});
+
 //Post Method
 router.post('/post', async (req, res) => {
     const data = new Model({
-        name: req.body.name,
-        age: req.body.age
+        title: req.body.title,
+        description: req.body.description,
+        done: req.body.done,
+        type: req.body.type
     });
 
     try {
@@ -39,6 +51,34 @@ router.get('/getOne/:id', async (req, res) => {
     try {
         const data = await Model.findById(req.params.id);
         res.json(data);
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+//Update Method
+router.put('/update/:id', async (req, res) => {
+    try {
+        const data = await Model.findById(req.params.id);
+        data.title = req.body.title;
+        data.description = req.body.description;
+        data.done = req.body.done;
+        data.type = req.body.type;
+
+        const dataToUpdate = await data.save();
+        res.json(dataToUpdate);
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+//Delete method
+router.delete('/delete/:id', async (req, res) => {
+    try {
+        const deletedDocument = await Model.findByIdAndDelete(req.params.id);
+        res.json(deletedDocument);
     }
     catch (error) {
         res.status(500).json({ message: error.message });
